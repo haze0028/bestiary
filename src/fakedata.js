@@ -1,19 +1,35 @@
 const data = [
-    {
-        name: "Doppler",
-        id: 1,
-        type: '',
-        vulnerabilities: ['fire'],
-        resistances: ['lightning'],
-        immunities: [],
-        traits: [],
-        proficiencies: [],
-        bait: [],
-        quirks: [],
-        behaviours: [],
-        abilities: []
-    },
-]
+  {
+    name: "Doppler",
+    id: 1,
+    type: "",
+    vulnerabilities: ["fire"],
+    resistances: ["lightning"],
+    immunities: [],
+    traits: [],
+    proficiencies: [],
+    bait: [],
+    quirks: [],
+    behaviours: [],
+    abilities: [],
+  },
+  {
+    name: "Displacer beast",
+    id: 2,
+    type: "",
+    vulnerabilities: [],
+    resistances: [],
+    immunities: [],
+    traits: [],
+    proficiencies: [],
+    bait: [],
+    quirks: [],
+    behaviours: [],
+    abilities: [
+      "Displacement: The displacer beast projects a magical illusion that makes it appear to be standing near its actual location, causing attack rolls against it to have disadvantage. If it is hit by an attack, this trait is disrupted until the end of its next turn. This trait is also disrupted while the displacer beast is incapacitated or has a speed of 0.",
+    ],
+  },
+];
 
 export default data;
 // Checks for investigation
