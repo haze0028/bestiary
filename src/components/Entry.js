@@ -5,11 +5,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+// import data from '../fakedata';
+// import bg1 from '../images/bg-beige.jpeg';
 
 const bull = (
   <Box
     component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)'}}
   >
     •
   </Box>
