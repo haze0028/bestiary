@@ -1,7 +1,9 @@
+import Entry from './components/Entry';
+
 function App() {
   return (
     <div className="App">
-      <p>TEST APP</p>
+      <Entry />
     </div>
   );
 }
