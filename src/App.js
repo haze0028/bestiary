@@ -60,10 +60,6 @@ function App() {
     setMonster(item);
   };
 
-  useEffect(() => {
-    console.clear();
-  }, []);
-
   return (
     <Root>
       <div className="App">
