@@ -7,3 +7,30 @@ body {
   height: 100%;
   /* width: 100%; */
 }
+
+/* File: font.css */
+@font-face {
+	font-family: norse;
+	src: url('./font/NorseBold-2Kge.otf');
+}
+
+.header{
+	font-family: norse;
+	font-weight: bold;
+	font-size:100px;
+	color:white;
+}
+
+.listBox .MuiPaper-root{
+	background-image: url('./images/oldTimeyPaper.png');
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-size: 400px 120%;
+	background-attachment: local;
+  background-position-x: right;
+	border:none;
+}
+
+.listBox .MuiTypography-root{
+	font-family: norse;
+}
