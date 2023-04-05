@@ -1,12 +1,12 @@
 import Entry from "./components/Entries/Entry";
-import List from "./components/List";
 import NewButton from "./components/Buttons/NewButton";
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/system";
 import clsx from "clsx";
 import data from "./fakedata";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
+import ListDrawer from "./components/List";
 
 export const DRAWER_WIDTH = 300;
 
@@ -69,7 +69,7 @@ function App() {
             drawerClosed: !open.drawer,
           })}
         >
-          <List
+          <ListDrawer
             open={open.drawer}
             handleOpen={() => handleOpen("drawer")}
             handleClose={() => handleClose("drawer")}

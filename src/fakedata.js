@@ -2,7 +2,7 @@ const data = [
   {
     name: "Doppler",
     id: 1,
-    type: "",
+    type: "Monstrosity",
     vulnerabilities: ["fire"],
     resistances: ["lightning"],
     immunities: [],
@@ -16,7 +16,7 @@ const data = [
   {
     name: "Goblin",
     id: 2,
-    type: "",
+    type: "Humanoid",
     vulnerabilities: [],
     resistances: [],
     immunities: [],
@@ -30,7 +30,7 @@ const data = [
   {
     name: "Displacer beast",
     id: 3,
-    type: "",
+    type: "Fiend",
     vulnerabilities: [],
     resistances: [],
     immunities: [],

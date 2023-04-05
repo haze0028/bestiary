@@ -11,11 +11,14 @@ body {
 /* File: font.css */
 @font-face {
 	font-family: norse;
+	src: url('./font/Norse-KaWl.otf');
+}
+@font-face {
+	font-family: norseBold;
 	src: url('./font/NorseBold-2Kge.otf');
 }
 
 .header{
-	font-family: norse;
 	font-weight: bold;
 	font-size:100px;
 	color:white;
