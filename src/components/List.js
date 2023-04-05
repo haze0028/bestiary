@@ -102,8 +102,8 @@ export default function ListDrawer({ open, data, handleClick }) {
             <MenuItem value="allAsc">All A-Z</MenuItem>
             <MenuItem value="allDes">All Z-A</MenuItem>
             <Divider />
-            <MenuItem value="typeAsc">Type A-Z</MenuItem>
-            <MenuItem value="typeDes">Type Z-A</MenuItem>
+            <MenuItem value="typeAsc">Type</MenuItem>
+            {/* <MenuItem value="typeDes">Type Z-A</MenuItem> */}
           </Select>
         </FormControl>
         {/* <Button
