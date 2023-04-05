@@ -11,27 +11,34 @@ import {
   ListItem,
   List,
   ListItemIcon,
-  // Button,
-  // Menu,
+  Button,
+  Menu,
+  Stack,
 } from "@mui/material";
 import { DRAWER_WIDTH } from "../App";
 import { useEffect, useState } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export default function ListDrawer({ open, data, handleClick }) {
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const menuOpen = Boolean(anchorEl);
-  // const handleClickMenu = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-  // const handleClickMenuItem = (e) => {
-  //   setAnchorEl(null);
-  // };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleClickMenu = (event) => {
+    console.log("fired");
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClickMenuItem = (e, val) => {
+    e.preventDefault();
+    setSort(val);
+    handleChange();
+    handleClose();
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [sort, setSort] = useState("allAsc");
-  const [names, setNames] = useState(data);
+  const [names, setNames] = useState(
+    data.slice().sort((a, b) => (a.name > b.name ? 1 : -1))
+  );
   const [alpha, setAlpha] = useState(true);
   const types = data
     .filter((item) => item.type !== "")
@@ -41,23 +48,21 @@ export default function ListDrawer({ open, data, handleClick }) {
     const val = e.target.value;
     setSort(val);
     setAlpha(val === "allAsc" || val === "allDes" ? true : false);
-    setNames(data.sort((a, b) => compareNames(a.name, b.name)));
+    setNames(data.slice().sort((a, b) => compareNames(a.name, b.name)));
   }
 
   const compareNames = (a, b) => {
     switch (sort) {
       case "allAsc":
-        return a > b ? 1 : -1;
+        return a > b ? -1 : 1;
       case "allDes":
-        return b > a ? 1 : -1;
+        return a > b ? 1 : -1;
       default:
         break;
     }
   };
 
   useEffect(() => {
-    setNames(data.sort((a, b) => compareNames(a.name, b.name)));
-    console.log(types);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,7 +83,7 @@ export default function ListDrawer({ open, data, handleClick }) {
         <Typography variant="h2" sx={{ fontWeight: "bold" }}>
           Monsters
         </Typography>
-        <FormControl
+        {/*  <FormControl
           variant="standard"
           sx={{
             width: "90%",
@@ -103,42 +108,56 @@ export default function ListDrawer({ open, data, handleClick }) {
             <MenuItem value="allDes">All Z-A</MenuItem>
             <Divider />
             <MenuItem value="typeAsc">Type</MenuItem>
-            {/* <MenuItem value="typeDes">Type Z-A</MenuItem> */}
+            {/* <MenuItem value="typeDes">Type Z-A</MenuItem> 
           </Select>
-        </FormControl>
-        {/* <Button
-          id="basic-button"
-          aria-controls={menuOpen ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={menuOpen ? "true" : undefined}
-          onClick={handleClickMenu}
+        </FormControl> */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          Sort By
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={menuOpen}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={handleClickMenuItem} value="profile">
-            Profile
-          </MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu> */}
+          <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+            {sort === "type" ? "Type" : "All"}
+          </Typography>
+          <Button
+            id="sortby-button"
+            aria-controls={menuOpen ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={menuOpen ? "true" : undefined}
+            onClick={handleClickMenu}
+            variant="outlined"
+            color="success"
+            sx={{ mr: 3, maxHeight: "80%" }}
+          >
+            Sort By
+          </Button>
+          <Menu
+            id="sortby-menu"
+            anchorEl={anchorEl}
+            open={menuOpen}
+            // onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={(e) => handleClickMenuItem(e, "allAsc")}>
+              All A-Z
+            </MenuItem>
+            <MenuItem onClick={(e) => handleClickMenuItem(e, "allDes")}>
+              All Z-A
+            </MenuItem>
+            <MenuItem onClick={(e) => handleClickMenuItem(e, "typeAsc")}>
+              Type
+            </MenuItem>
+            {/* <MenuItem onClick={()=>handleClickMenu('typeDes')}>Type</MenuItem> */}
+          </Menu>
+        </Stack>
         {alpha ? (
           <>
-            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-              All
-            </Typography>
             <List>
               {names.map((item) => {
                 return (
-                  <ListItem>
+                  <ListItem key={item.id}>
                     <ListItemIcon sx={{ minWidth: "unset" }}>
                       <ArrowForwardIosIcon />
                     </ListItemIcon>
@@ -159,47 +178,42 @@ export default function ListDrawer({ open, data, handleClick }) {
           </>
         ) : (
           <>
-            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-              Types
-            </Typography>
             <List>
               {types.map((item) => {
                 return (
-                  <>
-                    <ListItem
-                      key={item}
-                      sx={{
-                        flexDirection: "column",
-                        alignItems: "start",
-                        pl: 0,
-                      }}
-                    >
-                      <Typography variant="h4">{item}</Typography>
-                      <List>
-                        {names
-                          .filter((name) => name.type === item)
-                          .map((creature) => {
-                            return (
-                              <ListItem key={creature.id}>
-                                <ListItemIcon sx={{ minWidth: "unset" }}>
-                                  <ArrowForwardIosIcon />
-                                </ListItemIcon>
-                                <Link
-                                  href="/"
-                                  onClick={(e) => handleClick(e, creature)}
-                                  color="inherit"
-                                  variant="body1"
-                                  underline="hover"
-                                  sx={(theme) => ({ fontSize: "1.5rem" })}
-                                >
-                                  {creature.name}
-                                </Link>
-                              </ListItem>
-                            );
-                          })}
-                      </List>
-                    </ListItem>
-                  </>
+                  <ListItem
+                    key={item}
+                    sx={{
+                      flexDirection: "column",
+                      alignItems: "start",
+                      pl: 0,
+                    }}
+                  >
+                    <Typography variant="h4">{item}</Typography>
+                    <List>
+                      {names
+                        .filter((name) => name.type === item)
+                        .map((creature) => {
+                          return (
+                            <ListItem key={creature.id}>
+                              <ListItemIcon sx={{ minWidth: "unset" }}>
+                                <ArrowForwardIosIcon />
+                              </ListItemIcon>
+                              <Link
+                                href="/"
+                                onClick={(e) => handleClick(e, creature)}
+                                color="inherit"
+                                variant="body1"
+                                underline="hover"
+                                sx={(theme) => ({ fontSize: "1.5rem" })}
+                              >
+                                {creature.name}
+                              </Link>
+                            </ListItem>
+                          );
+                        })}
+                    </List>
+                  </ListItem>
                 );
               })}
             </List>

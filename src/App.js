@@ -1,12 +1,14 @@
 import Entry from "./components/Entries/Entry";
 import NewButton from "./components/Buttons/NewButton";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { styled } from "@mui/system";
 import clsx from "clsx";
 import data from "./fakedata";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
 import ListDrawer from "./components/List";
+import "./app.css";
+import blood from "./images/blood2.png";
 
 export const DRAWER_WIDTH = 300;
 
@@ -23,6 +25,8 @@ const Root = styled("div")(({ theme }) => ({
       height: "100vh",
       "& .content": {
         padding: theme.spacing(5),
+        maxWidth: theme.spacing(150),
+        margin: "auto",
       },
     },
   },
@@ -80,7 +84,14 @@ function App() {
         <Box className="entryBox">
           <div className="content">
             <header>
-              <h1 className="header">Bestiary</h1>
+              <img src={blood} alt="header background blood" id="headerImage" />
+              <Typography
+                variant="h1"
+                className="header"
+                sx={{ textAlign: "right", fontWeight: "bold" }}
+              >
+                Bestiary
+              </Typography>
             </header>
             {monster && <Entry monster={monster} />}
             <ToggleDrawerButton
