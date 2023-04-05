@@ -27,10 +27,11 @@ export default function ListDrawer({ open, data, handleClick }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClickMenuItem = (e, val) => {
-    e.preventDefault();
     setSort(val);
-    handleChange();
+    setAlpha(val === "allAsc" || val === "allDes" ? true : false);
+    setNames(data.slice().sort((a, b) => compareNames(a.name, b.name)));
     handleClose();
+    console.log("ewstes");
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -44,12 +45,11 @@ export default function ListDrawer({ open, data, handleClick }) {
     .filter((item) => item.type !== "")
     .map((item) => item.type);
 
-  function handleChange(e) {
-    const val = e.target.value;
-    setSort(val);
-    setAlpha(val === "allAsc" || val === "allDes" ? true : false);
-    setNames(data.slice().sort((a, b) => compareNames(a.name, b.name)));
-  }
+  // function handleChange(e) {
+  //   setSort(val);
+  //   setAlpha(val === "allAsc" || val === "allDes" ? true : false);
+  //   setNames(data.slice().sort((a, b) => compareNames(a.name, b.name)));
+  // }
 
   const compareNames = (a, b) => {
     switch (sort) {
@@ -117,7 +117,7 @@ export default function ListDrawer({ open, data, handleClick }) {
           alignItems="center"
         >
           <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-            {sort === "type" ? "Type" : "All"}
+            {sort === "typeAsc" ? "Type" : "All"}
           </Typography>
           <Button
             id="sortby-button"
