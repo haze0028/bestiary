@@ -1,38 +1,241 @@
-import { useState } from "react";
 import {
   Drawer,
-  Button,
-  ClickAwayListener,
   Box,
+  Link,
   Typography,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  ListItem,
+  List,
+  ListItemIcon,
+  Stack,
+  IconButton,
+  Popover,
 } from "@mui/material";
 import { DRAWER_WIDTH } from "../App";
+import { useEffect, useState } from "react";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import CloseIcon from "@mui/icons-material/Close";
+import CancelIcon from "@mui/icons-material/Cancel";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import clsx from "clsx";
 
-export default function List({ open, handleOpen, handleClose, data }) {
+export default function ListDrawer({ open, data, handleClick, handleClose }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const popopen = Boolean(anchorEl);
+
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState(true);
+  const names = data.slice().sort((a, b) => (a.name > b.name ? 1 : -1));
+  const types = [...new Set(data.map((item) => item.type))];
+
+  function orderClickHandler() {
+    setOrder(!order);
+  }
+
+  function handleChange(e) {
+    const val = e.target.value;
+    setSort(val);
+  }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    // <ClickAwayListener onClickAway={handleClose}>
     <Box sx={{ position: "relative" }}>
       <Drawer
         anchor="left"
         open={open}
         variant="persistent"
-        sx={{
+        sx={(theme) => ({
           "& .MuiPaper-root": {
             width: DRAWER_WIDTH,
+            backgroundColor: "transparent",
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
           },
-        }}
-      >
-        {data.map((item) => {
-          return (
-            <ul>
-              <li>
-                <Typography>{item.name}</Typography>
-              </li>
-            </ul>
-          );
         })}
+      >
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="h2" sx={{ fontWeight: "bold" }}>
+            Creatures
+          </Typography>
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <FormControl
+            variant="standard"
+            sx={{
+              width: "70%",
+              mb: 2,
+              "& label.Mui-focused": {
+                color: "brown",
+              },
+              "& .MuiInputBase-root.MuiInput-root::after": {
+                borderBottomColor: "brown",
+              },
+            }}
+          >
+            <InputLabel id="sort-by-label">Sort by</InputLabel>
+            <Select
+              labelId="sort-by-label"
+              id="sort-by-select"
+              value={sort}
+              label="Sort by"
+              onChange={handleChange}
+            >
+              <MenuItem value="name">Name</MenuItem>
+              <MenuItem value="type">Type</MenuItem>
+            </Select>
+          </FormControl>
+          <Popover
+            id="mouse-over-popover"
+            sx={{
+              pointerEvents: "none",
+            }}
+            open={popopen}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            onClose={handlePopoverClose}
+            disableRestoreFocus
+          >
+            <Typography sx={{ p: 1 }}>{order ? "A-Z" : "Z-A"}</Typography>
+          </Popover>
+          <IconButton
+            className={clsx("order-btn", {
+              orderBtnDes: !order,
+            })}
+            sx={{ width: 40, height: 40 }}
+            onClick={orderClickHandler}
+            aria-owns={popopen ? "mouse-over-popover" : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+          >
+            <FilterListIcon />
+          </IconButton>
+        </Stack>
+        <Box sx={{ overflowY: "auto" }} className="scrollbar" id="style-7">
+          {sort === "name" ? (
+            <>
+              <List>
+                {names
+                  .sort((a, b) =>
+                    order
+                      ? a.name > b.name
+                        ? 1
+                        : -1
+                      : a.name > b.name
+                      ? -1
+                      : 1
+                  )
+                  .map((item) => {
+                    return (
+                      <ListItem key={item.id}>
+                        <ListItemIcon sx={{ minWidth: "unset" }}>
+                          <WhatshotIcon />
+                        </ListItemIcon>
+                        <Link
+                          href="/"
+                          onClick={(e) => handleClick(e, item)}
+                          color="inherit"
+                          variant="body1"
+                          underline="hover"
+                          sx={(theme) => ({ fontSize: "1.5rem" })}
+                        >
+                          {item.name}
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+              </List>
+            </>
+          ) : (
+            <>
+              <List>
+                {types
+                  .sort((a, b) => (order ? (a > b ? 1 : -1) : a > b ? -1 : 1))
+                  .map((item) => {
+                    return (
+                      <ListItem
+                        key={item}
+                        sx={{
+                          flexDirection: "column",
+                          alignItems: "start",
+                          pl: 0,
+                        }}
+                      >
+                        <Typography variant="h4">{item}</Typography>
+                        <List>
+                          {names
+                            .filter((name) => name.type === item)
+                            .sort((a, b) =>
+                              order
+                                ? a.name > b.name
+                                  ? 1
+                                  : -1
+                                : a.name > b.name
+                                ? -1
+                                : 1
+                            )
+                            .map((creature) => {
+                              return (
+                                <ListItem key={creature.id}>
+                                  <ListItemIcon sx={{ minWidth: "unset" }}>
+                                    <WhatshotIcon />
+                                  </ListItemIcon>
+                                  <Link
+                                    href="/"
+                                    onClick={(e) => handleClick(e, creature)}
+                                    color="inherit"
+                                    variant="body1"
+                                    underline="hover"
+                                    sx={(theme) => ({ fontSize: "1.5rem" })}
+                                  >
+                                    {creature.name}
+                                  </Link>
+                                </ListItem>
+                              );
+                            })}
+                        </List>
+                      </ListItem>
+                    );
+                  })}
+              </List>
+            </>
+          )}
+        </Box>
       </Drawer>
     </Box>
-    // </ClickAwayListener>
   );
 }

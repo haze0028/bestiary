@@ -1,12 +1,11 @@
 import { Button } from "@mui/material";
-import { Delete } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 
-export default function NewButton() {
+export default function NewEntryButton() {
   return (
     <Button
       variant="contained"
-      sx={{ position: "fixed", bottom: 30, right: 30 }}
+      sx={{ position: "absolute", bottom: 30, right: 30 }}
       startIcon={<Add />}
     >
       New Entry

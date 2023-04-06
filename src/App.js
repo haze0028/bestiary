@@ -1,11 +1,14 @@
 import Entry from "./components/Entries/Entry";
-import List from "./components/List";
-import NewButton from "./components/Entries/NewButton";
-import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import NewButton from "./components/Buttons/NewButton";
+import { Box, Typography } from "@mui/material";
+import { useState } from "react";
 import { styled } from "@mui/system";
 import clsx from "clsx";
 import data from "./fakedata";
+import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
+import ListDrawer from "./components/List";
+import "./app.css";
+import blood from "./images/blood2.png";
 
 export const DRAWER_WIDTH = 300;
 
@@ -14,10 +17,17 @@ const Root = styled("div")(({ theme }) => ({
     display: "flex",
     "& .listBox": {
       transition: "300ms",
+      height: "100vh",
     },
     "& .entryBox": {
       flex: 1,
-      margin: theme.spacing(5),
+      position: "relative",
+      height: "100vh",
+      "& .content": {
+        padding: theme.spacing(5),
+        maxWidth: theme.spacing(150),
+        margin: "auto",
+      },
     },
   },
   "& .drawerOpen": {
@@ -33,6 +43,7 @@ function App() {
     drawer: true,
     card: true,
   });
+  const [monster, setMonster] = useState();
 
   const handleOpen = (item) => {
     console.log(open);
@@ -44,15 +55,14 @@ function App() {
     setOpen({ ...open, drawer: false });
   };
 
-  const toggleOpen = (item) => {
-    console.log(item);
-    setOpen({ ...open, [item]: true });
-    console.log(open);
+  const handleToggleDrawer = () => {
+    setOpen({ ...open, drawer: !open.drawer });
   };
 
-  useEffect(() => {
-    console.clear();
-  }, []);
+  const handleClick = (e, item) => {
+    e.preventDefault();
+    setMonster(item);
+  };
 
   return (
     <Root>
@@ -63,31 +73,34 @@ function App() {
             drawerClosed: !open.drawer,
           })}
         >
-          <List
+          <ListDrawer
             open={open.drawer}
             handleOpen={() => handleOpen("drawer")}
             handleClose={() => handleClose("drawer")}
+            handleClick={handleClick}
             data={data}
           />
         </Box>
         <Box className="entryBox">
-          <Button
-            onClick={() => handleOpen("drawer")}
-            variant="contained"
-            color="success"
-          >
-            View Bestiary List
-          </Button>
-          <Button
-            onClick={() => handleClose("drawer")}
-            variant="contained"
-            color="success"
-          >
-            Close Bestiary List
-          </Button>
-          <Entry monster={data[0]} />
+          <div className="content">
+            <header>
+              <img src={blood} alt="header background blood" id="headerImage" />
+              <Typography
+                variant="h1"
+                className="header"
+                sx={{ textAlign: "right", fontWeight: "bold" }}
+              >
+                Bestiary
+              </Typography>
+            </header>
+            {monster && <Entry monster={monster} />}
+            <ToggleDrawerButton
+              drawer={open.drawer}
+              handleClick={handleToggleDrawer}
+            />
+            <NewButton />
+          </div>
         </Box>
-        <NewButton />
       </div>
     </Root>
   );
