@@ -86,12 +86,34 @@ button.MuiButton-containedPrimary:hover {
   filter: brightness(85%);
 }
 
-.MuiPaper-root.MuiCard-root {
-  background-color: rgb(230, 230, 230);
-  background-image: url("./images/border-frame1.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 145% 100%;
-  background-attachment: fixed;
-  background-attachment: local;
+.border-corner {
+  width: 60px;
+  height: 60px;
+}
+
+#border-corner1 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#border-corner2 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: rotate(90deg);
+}
+
+#border-corner3 {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(-90deg);
+}
+
+#border-corner4 {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(180deg);
 }

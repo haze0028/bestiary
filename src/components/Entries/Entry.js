@@ -4,13 +4,38 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import borderCorner from "../../images/borderCorner.png";
 
 export default function BasicCard({ monster }) {
   return (
-    <Card sx={{ minWidth: 275, padding: 5 }}>
+    <Card sx={{ minWidth: 275, padding: 5, position: "relative" }}>
+      <img
+        src={borderCorner}
+        alt="border corner"
+        id="border-corner1"
+        className="border-corner"
+      />
+      <img
+        src={borderCorner}
+        alt="border corner"
+        id="border-corner2"
+        className="border-corner"
+      />
+      <img
+        src={borderCorner}
+        alt="border corner"
+        id="border-corner3"
+        className="border-corner"
+      />
+      <img
+        src={borderCorner}
+        alt="border corner"
+        id="border-corner4"
+        className="border-corner"
+      />
       <CardContent>
         <Typography variant="h3" component="h2" gutterBottom>
-          Monster: {monster.name}
+          {monster.name}
         </Typography>
         <>
           {monster.type !== "" && (
