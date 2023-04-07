@@ -31,14 +31,13 @@ header h1 {
 #headerImage {
   height: 6rem;
   width: 20rem;
-  /* transform: rotate(180deg); */
   transform: scaleY(-1) translateY(-20px);
   position: absolute;
   right: 0;
   z-index: 0;
 }
 
-.listBox .MuiPaper-root {
+.leftPanel .MuiPaper-root {
   background-image: url("./images/oldTimeyPaper.png");
   background-repeat: no-repeat;
   background-position-y: center;
@@ -86,38 +85,6 @@ button.MuiButton-containedPrimary:hover {
   filter: brightness(85%);
 }
 
-.border-corner {
-  width: 60px;
-  height: 60px;
-}
-
-#border-corner1 {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-#border-corner2 {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  transform: rotate(90deg);
-}
-
-#border-corner3 {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  transform: rotate(-90deg);
-}
-
-#border-corner4 {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  transform: rotate(180deg);
-}
-
 .order-btn {
   transition: 300ms !important;
 }
@@ -155,4 +122,22 @@ button.MuiButton-containedPrimary:hover {
     /* color-stop(0.3, rgb(148, 76, 28)), */ color-stop(0.2, rgb(175, 115, 46)),
     color-stop(0.8, rgb(148, 76, 28))
   );
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
