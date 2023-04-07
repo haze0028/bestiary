@@ -102,6 +102,23 @@ const data = [
 ];
 
 export default data;
+
+// BLANK TEMPLATE
+// {
+//   name: "",
+//   id: undefined, // number
+//   type: "",
+//   vulnerabilities: [],
+//   resistances: [],
+//   immunities: [],
+//   traits: [],
+//   proficiencies: [],
+//   bait: [],
+//   quirks: [],
+//   behaviours: [],
+//   abilities: [],
+// },
+
 // Checks for investigation
 // Observation (in combat - 1 action)
 

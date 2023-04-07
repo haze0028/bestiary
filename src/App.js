@@ -4,14 +4,14 @@ import clsx from "clsx";
 import "./app.css";
 
 import data from "./fakedata";
+import { DRAWER_WIDTH } from "./constants";
 import { Box, Typography } from "@mui/material";
 import MonsterCard from "./components/Entries/MonsterCard";
 import NewButton from "./components/Buttons/NewEntryButton";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
 import ListDrawer from "./components/List";
 import blood from "./images/blood2.png";
-
-export const DRAWER_WIDTH = 360;
+import NewMonsterModal from "./components/Entries/NewMonsterModal";
 
 const Root = styled("div")(({ theme }) => ({
   "& .App": {
@@ -48,7 +48,7 @@ const Root = styled("div")(({ theme }) => ({
 function App() {
   const [open, setOpen] = useState({
     drawer: true,
-    card: true,
+    modal: false,
   });
   const [monster, setMonster] = useState();
   const [fade, setFade] = useState();
@@ -78,7 +78,11 @@ function App() {
   };
 
   const handleNewClick = () => {
-    //
+    setOpen({ ...open, modal: true });
+  };
+
+  const handleNewClose = () => {
+    setOpen({ ...open, modal: false });
   };
 
   return (
@@ -128,6 +132,9 @@ function App() {
             <NewButton handleClick={handleNewClick} shift={monster} />
           </div>
         </Box>
+        {open.modal && (
+          <NewMonsterModal open={open.modal} handleClose={handleNewClose} />
+        )}
       </div>
     </Root>
   );

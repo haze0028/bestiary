@@ -17,7 +17,7 @@ import {
   IconButton,
   Popover,
 } from "@mui/material";
-import { DRAWER_WIDTH } from "../App";
+import { DRAWER_WIDTH } from "../constants";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CloseIcon from "@mui/icons-material/Close";
