@@ -1,37 +1,87 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import borderCorner from "../../images/borderCorner.png";
+import clsx from "clsx";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/system";
 
-export default function BasicCard({ monster }) {
+const Root = styled(Card)(({ theme }) => ({
+  minWidth: 275,
+  padding: theme.spacing(3),
+  position: "relative",
+  transition: "500ms",
+  opacity: 0,
+
+  "&.fadeIn": {
+    opacity: 1,
+  },
+
+  "& .borderCorner": {
+    width: "60px",
+    height: "60px",
+    position: "absolute",
+    transition: "500ms ease-out",
+  },
+
+  "& #borderCorner1": {
+    top: theme.spacing(1),
+    left: theme.spacing(1),
+  },
+
+  "& #borderCorner2": {
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    transform: "rotate(90deg)",
+  },
+
+  "& #borderCorner3": {
+    bottom: theme.spacing(1),
+    left: theme.spacing(1),
+    transform: "rotate(-90deg)",
+  },
+
+  "& #borderCorner4": {
+    bottom: theme.spacing(1),
+    right: theme.spacing(1),
+    transform: "rotate(180deg)",
+  },
+}));
+
+export default function MonsterCard({ monster, handleClickClose }) {
   return (
-    <Card sx={{ minWidth: 275, padding: 5, position: "relative" }}>
+    <Root
+      className={clsx("monsterCard", {
+        fadeIn: monster.name !== "",
+      })}
+    >
       <img
         src={borderCorner}
         alt="border corner"
-        id="border-corner1"
-        className="border-corner"
+        id="borderCorner1"
+        className="borderCorner"
       />
       <img
         src={borderCorner}
         alt="border corner"
-        id="border-corner2"
-        className="border-corner"
+        id="borderCorner2"
+        className="borderCorner"
       />
       <img
         src={borderCorner}
         alt="border corner"
-        id="border-corner3"
-        className="border-corner"
+        id="borderCorner3"
+        className="borderCorner"
       />
       <img
         src={borderCorner}
         alt="border corner"
-        id="border-corner4"
-        className="border-corner"
+        id="borderCorner4"
+        className="borderCorner"
       />
       <CardContent>
         <Typography variant="h3" component="h2" gutterBottom>
@@ -103,8 +153,10 @@ export default function BasicCard({ monster }) {
       <CardActions>
         <Button size="small">Edit</Button>
         <Button size="small">Add Section</Button>
-        <Button size="small">Close</Button>
+        <Button size="small" onClick={handleClickClose}>
+          Close
+        </Button>
       </CardActions>
-    </Card>
+    </Root>
   );
 }

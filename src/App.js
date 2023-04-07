@@ -1,25 +1,32 @@
-import Entry from "./components/Entries/Entry";
-import NewButton from "./components/Buttons/NewButton";
-import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { styled } from "@mui/system";
 import clsx from "clsx";
+import "./app.css";
+
 import data from "./fakedata";
+import { Box, Typography } from "@mui/material";
+import MonsterCard from "./components/Entries/MonsterCard";
+import NewButton from "./components/Buttons/NewEntryButton";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
 import ListDrawer from "./components/List";
-import "./app.css";
 import blood from "./images/blood2.png";
 
-export const DRAWER_WIDTH = 300;
+export const DRAWER_WIDTH = 360;
 
 const Root = styled("div")(({ theme }) => ({
   "& .App": {
     display: "flex",
-    "& .listBox": {
+    "& .leftPanel": {
       transition: "300ms",
       height: "100vh",
+      "&.drawerOpen": {
+        width: DRAWER_WIDTH,
+      },
+      "&.drawerClosed": {
+        width: 0,
+      },
     },
-    "& .entryBox": {
+    "& .rightPanel": {
       flex: 1,
       position: "relative",
       height: "100vh",
@@ -29,12 +36,12 @@ const Root = styled("div")(({ theme }) => ({
         margin: "auto",
       },
     },
-  },
-  "& .drawerOpen": {
-    width: DRAWER_WIDTH,
-  },
-  "& .drawerClosed": {
-    width: 0,
+    "& .fadeIn": {
+      opacity: 1,
+    },
+    "& .fadeOut": {
+      opacity: 0,
+    },
   },
 }));
 
@@ -44,11 +51,7 @@ function App() {
     card: true,
   });
   const [monster, setMonster] = useState();
-
-  const handleOpen = (item) => {
-    console.log(open);
-    setOpen({ ...open, drawer: true });
-  };
+  const [fade, setFade] = useState();
 
   const handleClose = (item) => {
     console.log(open);
@@ -59,29 +62,42 @@ function App() {
     setOpen({ ...open, drawer: !open.drawer });
   };
 
-  const handleClick = (e, item) => {
+  const handleListItemClick = (e, item) => {
     e.preventDefault();
     setMonster(item);
+    setTimeout(function () {
+      setFade(true);
+    }, 1000);
+  };
+
+  const handleCloseCard = () => {
+    setFade(false);
+    setTimeout(function () {
+      setMonster(null);
+    }, 1000);
+  };
+
+  const handleNewClick = () => {
+    //
   };
 
   return (
     <Root>
       <div className="App">
         <Box
-          className={clsx("listBox", {
+          className={clsx("leftPanel", {
             drawerOpen: open.drawer,
             drawerClosed: !open.drawer,
           })}
         >
           <ListDrawer
             open={open.drawer}
-            handleOpen={() => handleOpen("drawer")}
             handleClose={() => handleClose("drawer")}
-            handleClick={handleClick}
+            handleClick={handleListItemClick}
             data={data}
           />
         </Box>
-        <Box className="entryBox">
+        <Box className="rightPanel">
           <div className="content">
             <header>
               <img src={blood} alt="header background blood" id="headerImage" />
@@ -93,12 +109,23 @@ function App() {
                 Bestiary
               </Typography>
             </header>
-            {monster && <Entry monster={monster} />}
+            <Box
+              className={fade && "fadeIn"}
+              sx={{ transition: "1s", opacity: 0 }}
+            >
+              {monster && (
+                <MonsterCard
+                  monster={monster}
+                  handleClickClose={handleCloseCard}
+                />
+              )}
+            </Box>
             <ToggleDrawerButton
               drawer={open.drawer}
               handleClick={handleToggleDrawer}
+              shift={monster}
             />
-            <NewButton />
+            <NewButton handleClick={handleNewClick} shift={monster} />
           </div>
         </Box>
       </div>

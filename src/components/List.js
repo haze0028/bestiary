@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { styled } from "@mui/system";
+import clsx from "clsx";
 import {
   Drawer,
   Box,
@@ -15,13 +18,11 @@ import {
   Popover,
 } from "@mui/material";
 import { DRAWER_WIDTH } from "../App";
-import { useEffect, useState } from "react";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CloseIcon from "@mui/icons-material/Close";
-import CancelIcon from "@mui/icons-material/Cancel";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import clsx from "clsx";
+
+const Root = styled(Box)(({ theme }) => ({}));
 
 export default function ListDrawer({ open, data, handleClick, handleClose }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,7 +56,7 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
   }, []);
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Root sx={{ position: "relative" }}>
       <Drawer
         anchor="left"
         open={open}
@@ -66,6 +67,7 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
             backgroundColor: "transparent",
             paddingLeft: theme.spacing(2),
             paddingRight: theme.spacing(2),
+            boxSizing: "border-box",
           },
         })}
       >
@@ -73,6 +75,7 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          sx={{ mt: 1, mr: 1 }}
         >
           <Typography variant="h2" sx={{ fontWeight: "bold" }}>
             Creatures
@@ -85,6 +88,7 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
+          sx={{ mt: 1, mr: 1 }}
         >
           <FormControl
             variant="standard"
@@ -236,6 +240,6 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
           )}
         </Box>
       </Drawer>
-    </Box>
+    </Root>
   );
 }
