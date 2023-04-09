@@ -10,6 +10,7 @@ import NewButton from "./components/Buttons/NewEntryButton";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
 import ListDrawer from "./components/List";
 import blood from "./images/blood2.png";
+import Todo from "./components/Todo";
 
 export const DRAWER_WIDTH = 360;
 
@@ -109,6 +110,7 @@ function App() {
                 Bestiary
               </Typography>
             </header>
+            <Todo />
             <Box
               className={fade && "fadeIn"}
               sx={{ transition: "1s", opacity: 0 }}
