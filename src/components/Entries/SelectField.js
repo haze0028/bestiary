@@ -24,8 +24,10 @@ export default function SelectField({ handleSelectField, menuItems }) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
+        variant="contained"
+        fullWidth
       >
-        New Field
+        More Creature Features
       </Button>
       <Menu
         id="selectFieldMenu"
@@ -36,15 +38,17 @@ export default function SelectField({ handleSelectField, menuItems }) {
           "aria-labelledby": "selectFieldButton",
         }}
       >
-        {Object.keys(menuItems)
-          .filter((k) => !menuItems[k])
-          .map((item) => {
+        {
+          // Object.keys(menuItems)
+          // .filter((k) => !menuItems[k])
+          menuItems.map((item) => {
             return (
               <MenuItem onClick={() => handleSelectItem(item)} key={item}>
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </MenuItem>
             );
-          })}
+          })
+        }
       </Menu>
     </div>
   );

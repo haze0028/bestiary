@@ -95,12 +95,6 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
             sx={{
               width: "70%",
               mb: 2,
-              "& label.Mui-focused": {
-                color: "brown",
-              },
-              "& .MuiInputBase-root.MuiInput-root::after": {
-                borderBottomColor: "brown",
-              },
             }}
           >
             <InputLabel id="sort-by-label">Sort by</InputLabel>
