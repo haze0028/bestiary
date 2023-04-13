@@ -11,7 +11,7 @@ import NewButton from "./components/Buttons/NewEntryButton";
 import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
 import ListDrawer from "./components/List";
 import blood from "./images/blood2.png";
-import NewMonsterModal from "./components/Entries/NewMonsterModal";
+import NewMonsterDialog from "./components/Entries/NewMonsterDialog";
 
 const Root = styled("div")(({ theme }) => ({
   "& .App": {
@@ -54,7 +54,6 @@ function App() {
   const [fade, setFade] = useState();
 
   const handleClose = (item) => {
-    console.log(open);
     setOpen({ ...open, drawer: false });
   };
 
@@ -133,7 +132,7 @@ function App() {
           </div>
         </Box>
         {open.modal && (
-          <NewMonsterModal open={open.modal} handleClose={handleNewClose} />
+          <NewMonsterDialog open={open.modal} handleClose={handleNewClose} />
         )}
       </div>
     </Root>

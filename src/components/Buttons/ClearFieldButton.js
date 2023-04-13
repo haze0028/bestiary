@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Typography, IconButton, Popover } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function ClearFieldButton({ clickHandler }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -34,8 +34,10 @@ export default function ClearFieldButton({ clickHandler }) {
         }}
         onClose={handlePopoverClose}
         disableRestoreFocus
+        disableAutoFocus={true}
+        disableEnforceFocus={true}
       >
-        <Typography sx={{ p: 1 }}>Clear Name</Typography>
+        <Typography sx={{ p: 1 }}>Clear</Typography>
       </Popover>
       <IconButton
         sx={{ width: 40, height: 40 }}
@@ -45,7 +47,7 @@ export default function ClearFieldButton({ clickHandler }) {
         onMouseEnter={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
       >
-        <CancelIcon />
+        <CloseIcon />
       </IconButton>
     </>
   );
