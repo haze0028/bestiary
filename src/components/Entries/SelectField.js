@@ -29,9 +29,9 @@ export default function SelectField({
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         variant="contained"
-        sx={{ width: "80%", mb: 2 }}
+        sx={{ width: "60%", mt: 2 }}
       >
-        More Creature Features
+        Add More Creature Features
       </Button>
       <Menu
         id="selectFieldMenu"

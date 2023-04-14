@@ -23,7 +23,7 @@ export default function FeatureCard({
   return (
     <Box sx={{ width: "100%", mb: 1, breakInside: "avoid" }}>
       <Card variant="outlined">
-        <CardContent>
+        <CardContent sx={{ pb: 0 }}>
           <Typography variant="h5" component="h3" gutterBottom>
             {title.charAt(0).toUpperCase() + title.slice(1)}
           </Typography>
@@ -38,28 +38,25 @@ export default function FeatureCard({
                     sx={{
                       px: 1,
                       py: 0.5,
+                      height: 40,
                       display: "flex",
                       alignContent: "flex-start",
-                      "&:hover": {
-                        "& .MuiButtonBase-root": {
-                          display: "block",
-                        },
+                      "&:hover button": {
+                        display: "block",
                       },
                     }}
-                    secondaryAction={
-                      <IconButton
-                        sx={{ display: "none", height: 40 }}
-                        title="Delete"
-                        onClick={() => {
-                          handleDeleteLine(title, item);
-                        }}
-                        edge="end"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    }
                   >
-                    {item}
+                    <Typography sx={{ flex: 1 }}>{item}</Typography>
+                    <IconButton
+                      sx={{ height: 40, display: "none" }}
+                      title="Delete"
+                      onClick={() => {
+                        handleDeleteLine(title, item);
+                      }}
+                      edge="end"
+                    >
+                      <CloseIcon />
+                    </IconButton>
                   </ListItem>
                 );
               })}

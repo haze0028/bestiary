@@ -62,7 +62,7 @@ export default function NameField({ handleSubmit, handleReset }) {
           // helperText={data.name && "That name already exists"}
         />
       </Grid>
-      <Grid item alignItems="center" sx={{ display: "flex" }}>
+      <Grid item alignItems="center" sx={{ display: "flex", ml: 1 }}>
         <ClearFieldButton clickHandler={handleClearName} />
         <Popover
           id="mouse-over-popover"

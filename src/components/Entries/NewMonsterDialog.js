@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
@@ -13,6 +13,7 @@ import {
   Divider,
   Alert,
   Stack,
+  IconButton,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -23,6 +24,7 @@ import FeatureField from "../Fields/FeatureField";
 import FeatureCard from "./FeatureCard";
 import NameField from "../Fields/NameField";
 import ClearFieldButton from "../Buttons/ClearFieldButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const INITIAL = {
   name: "",
@@ -92,7 +94,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
     setData({ ...data, [field]: newArr });
   }
 
-  function featureCards() {
+  function FeatureCards() {
     return Object.entries(data).map(([key, value]) => {
       if (key !== "name" && key !== "type") {
         if (value.length !== 0) {
@@ -114,6 +116,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
   function handleSubmitField(field, val) {
     if (field === "type" || field === "name") {
       setData({ ...data, [field]: val });
+      setSelectedField("");
     } else {
       const tempArr = data[field];
 
@@ -129,6 +132,17 @@ export default function NewMonsterDialog({ open, handleClose }) {
         [field]: tempArr,
       });
     }
+  }
+
+  function dataSubmitted() {
+    const arr = Object.entries(data).map(([key, value]) => {
+      if (key !== "name") {
+        if (value.length !== 0) {
+          return true;
+        }
+      }
+    });
+    return arr.includes(true);
   }
 
   function handleReset() {
@@ -157,7 +171,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
         component="form"
         fullScreen={fullScreen}
         fullWidth
-        maxWidth="md"
+        maxWidth="lg"
         onSubmit={handleSubmit}
         sx={{
           "& > .MuiPaper-root": {
@@ -166,25 +180,24 @@ export default function NewMonsterDialog({ open, handleClose }) {
         }}
       >
         <DialogTitle sx={{ pt: 3 }}>
-          {data.name ? "New Creature - Details" : "New Creature - Name"}
+          {/* {data.name ? "New Creature - Details" : "New Creature - Name"} */}
+          <Stack direction="row" sx={{ alignItems: "center" }}>
+            <Typography variant="h3" component="h2" sx={{ flex: 1 }}>
+              {!data.name ? "Name" : `${data.name} - Details`}
+            </Typography>
+            <Typography variant="h4" component="h3" sx={{ mr: 2 }}>
+              New Creature
+            </Typography>
+            <IconButton onClick={handleCancel}>
+              <CloseIcon />
+            </IconButton>
+          </Stack>
         </DialogTitle>
         <DialogContent dividers>
           <Box sx={{ py: 0 }}>
             {!data.name && <NameField handleSubmit={handleSubmitField} />}
             {data.name && (
               <Box sx={{ mb: 2, textAlign: "center" }}>
-                <Alert
-                  severity="warning"
-                  sx={{
-                    "&.MuiAlert-root.MuiAlert-standardWarning": {
-                      minWidth: "unset",
-                    },
-                    mb: 2,
-                  }}
-                  icon={<PostAddIcon />}
-                >
-                  Want to add some extra details?
-                </Alert>
                 <SelectField
                   handleSelectField={handleSelectField}
                   menuItems={fields}
@@ -205,8 +218,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
           </Box>
           {data.name && (
             <>
-              <Divider sx={{ my: 3 }} />
-              <Typography variant="h3">{data.name}</Typography>
+              {dataSubmitted() === true && <Divider sx={{ my: 3 }} />}
               {data.type && (
                 <Stack
                   direction="row"
@@ -223,7 +235,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
                     },
                   }}
                 >
-                  <Typography sx={{ mr: 2 }} fullWidth>
+                  <Typography sx={{ mr: 2, width: "100%" }}>
                     Type: {data.type}
                   </Typography>
                   <ClearFieldButton
@@ -231,7 +243,9 @@ export default function NewMonsterDialog({ open, handleClose }) {
                   />
                 </Stack>
               )}
-              <Box sx={{ columns: 2 }}>{featureCards()}</Box>
+              <Box sx={{ columns: 3 }}>
+                <FeatureCards />
+              </Box>
             </>
           )}
         </DialogContent>

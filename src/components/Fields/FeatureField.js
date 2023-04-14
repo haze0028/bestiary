@@ -42,11 +42,11 @@ export default function FeatureField({ handleSubmit, helperText, field }) {
 
   const popopen = Boolean(anchorEl);
 
-  useEffect(() => {
-    setTimeout(function () {
-      inputRef.current.focus();
-    }, 100);
-  });
+  // useEffect(() => {
+  //   setTimeout(function () {
+  //     inputRef.current.focus();
+  //   }, 100);
+  // });
 
   return (
     <Grid container>
