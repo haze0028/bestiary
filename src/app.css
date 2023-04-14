@@ -47,24 +47,15 @@ header h1 {
   border: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: norse !important;
-}
-
-button.MuiButton-containedSuccess {
+/* button.MuiButton-containedSuccess {
   background: rgb(136, 81, 35);
 }
 
 button.MuiButton-containedSuccess:hover {
   background: rgb(136, 81, 35);
   filter: brightness(85%);
-}
-
+} */
+/* 
 button.MuiButton-outlinedSuccess {
   border-color: rgb(136, 81, 35);
   color: rgb(136, 81, 35);
@@ -74,16 +65,16 @@ button.MuiButton-outlinedSuccess:hover {
   border-color: rgb(136, 81, 35);
   background-color: rgb(136, 81, 35, 0.04);
   filter: brightness(85%);
-}
+} */
 
-button.MuiButton-containedPrimary {
+/* button.MuiButton-containedPrimary {
   background: rgb(227 125 0);
 }
 
 button.MuiButton-containedPrimary:hover {
   background: rgb(227 125 0);
   filter: brightness(85%);
-}
+} */
 
 .order-btn {
   transition: 300ms !important;
