@@ -12,12 +12,30 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function FeatureCard({
-  title,
-  contents,
-  handleDeleteLine,
+export default function FeatureCards({
+  data,
   handleDeleteAll,
+  handleDeleteLine,
 }) {
+  return Object.entries(data).map(([key, value]) => {
+    if (key !== "name" && key !== "type") {
+      if (value.length !== 0) {
+        return (
+          <FeatureCard
+            title={key}
+            key={key}
+            contents={value}
+            handleDeleteAll={handleDeleteAll}
+            handleDeleteLine={handleDeleteLine}
+          />
+        );
+      }
+    }
+    return true;
+  });
+}
+
+function FeatureCard({ title, contents, handleDeleteLine, handleDeleteAll }) {
   const type = typeof contents;
 
   return (

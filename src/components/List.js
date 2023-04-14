@@ -15,7 +15,7 @@ import {
   ListItemIcon,
   Stack,
   IconButton,
-  Popover,
+  Tooltip,
 } from "@mui/material";
 import { DRAWER_WIDTH } from "../constants";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -25,18 +25,6 @@ import CloseIcon from "@mui/icons-material/Close";
 const Root = styled(Box)(({ theme }) => ({}));
 
 export default function ListDrawer({ open, data, handleClick, handleClose }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const popopen = Boolean(anchorEl);
-
   const [sort, setSort] = useState("name");
   const [order, setOrder] = useState(true);
   const names = data.slice().sort((a, b) => (a.name > b.name ? 1 : -1));
@@ -109,39 +97,17 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
               <MenuItem value="type">Type</MenuItem>
             </Select>
           </FormControl>
-          <Popover
-            id="mouse-over-popover"
-            sx={{
-              pointerEvents: "none",
-            }}
-            open={popopen}
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            onClose={handlePopoverClose}
-            disableRestoreFocus
-          >
-            <Typography sx={{ p: 1 }}>{order ? "A-Z" : "Z-A"}</Typography>
-          </Popover>
-          <IconButton
-            className={clsx("order-btn", {
-              orderBtnDes: !order,
-            })}
-            sx={{ width: 40, height: 40 }}
-            onClick={orderClickHandler}
-            aria-owns={popopen ? "mouse-over-popover" : undefined}
-            aria-haspopup="true"
-            onMouseEnter={handlePopoverOpen}
-            onMouseLeave={handlePopoverClose}
-          >
-            <FilterListIcon />
-          </IconButton>
+          <Tooltip title={order ? "A-Z" : "Z-A"} arrow>
+            <IconButton
+              className={clsx("order-btn", {
+                orderBtnDes: !order,
+              })}
+              sx={{ width: 40, height: 40 }}
+              onClick={orderClickHandler}
+            >
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
         </Stack>
         <Box sx={{ overflowY: "auto" }} className="scrollbar" id="style-7">
           {sort === "name" ? (

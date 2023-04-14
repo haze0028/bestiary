@@ -11,17 +11,15 @@ import {
   DialogActions,
   Grid,
   Divider,
-  Alert,
   Stack,
   IconButton,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SelectField from "./SelectField";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 import TypeField from "../Fields/TypeField";
 import FeatureField from "../Fields/FeatureField";
-import FeatureCard from "./FeatureCard";
+import FeatureCards from "./FeatureCard";
 import NameField from "../Fields/NameField";
 import ClearFieldButton from "../Buttons/ClearFieldButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -94,25 +92,6 @@ export default function NewMonsterDialog({ open, handleClose }) {
     setData({ ...data, [field]: newArr });
   }
 
-  function FeatureCards() {
-    return Object.entries(data).map(([key, value]) => {
-      if (key !== "name" && key !== "type") {
-        if (value.length !== 0) {
-          return (
-            <FeatureCard
-              title={key}
-              key={key}
-              contents={value}
-              handleDeleteAll={handleDeleteAll}
-              handleDeleteLine={handleDeleteLine}
-            />
-          );
-        }
-      }
-      return true;
-    });
-  }
-
   function handleSubmitField(field, val) {
     if (field === "type" || field === "name") {
       setData({ ...data, [field]: val });
@@ -135,14 +114,16 @@ export default function NewMonsterDialog({ open, handleClose }) {
   }
 
   function dataSubmitted() {
-    const arr = Object.entries(data).map(([key, value]) => {
-      if (key !== "name") {
-        if (value.length !== 0) {
-          return true;
-        }
-      }
-    });
-    return arr.includes(true);
+    const arr = Object.entries(data);
+    const filterArr = arr.filter(
+      (item) => item[0] !== "name" && item[0] !== "type" && item[1].length !== 0
+    );
+    const filterType = arr.filter(
+      (item) => item[0] === "type" && item[1] !== ""
+    );
+
+    console.log(filterType);
+    // console.log(filterArr.length);
   }
 
   function handleReset() {
@@ -161,6 +142,10 @@ export default function NewMonsterDialog({ open, handleClose }) {
     e.preventDefault();
   }
 
+  // useEffect(() => {
+  //   console.log(dataSubmitted());
+  // }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -171,7 +156,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
         component="form"
         fullScreen={fullScreen}
         fullWidth
-        maxWidth="lg"
+        maxWidth="sm"
         onSubmit={handleSubmit}
         sx={{
           "& > .MuiPaper-root": {
@@ -244,7 +229,11 @@ export default function NewMonsterDialog({ open, handleClose }) {
                 </Stack>
               )}
               <Box sx={{ columns: 3 }}>
-                <FeatureCards />
+                <FeatureCards
+                  handleDeleteAll={handleDeleteAll}
+                  handleDeleteLine={handleDeleteLine}
+                  data={data}
+                />
               </Box>
             </>
           )}

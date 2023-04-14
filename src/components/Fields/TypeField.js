@@ -5,8 +5,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Popover,
-  Typography,
+  Tooltip,
   IconButton,
 } from "@mui/material";
 import { CREATURE_TYPES } from "../../constants";
@@ -14,22 +13,11 @@ import { AddCircleOutline } from "@mui/icons-material";
 
 export default function TypeField({ handleSubmit }) {
   const types = CREATURE_TYPES;
-  const [anchorEl, setAnchorEl] = useState(null);
   const [selected, setSelected] = useState("");
 
   function handleChange(e) {
     setSelected(e.target.value);
   }
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const popopen = Boolean(anchorEl);
 
   return (
     <Grid container>
@@ -67,36 +55,14 @@ export default function TypeField({ handleSubmit }) {
         alignItems="center"
         sx={{ display: "flex", alignItems: "flex-end" }}
       >
-        <Popover
-          id="mouse-over-popover"
-          sx={{
-            pointerEvents: "none",
-          }}
-          open={popopen}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          onClose={handlePopoverClose}
-          disableRestoreFocus
-        >
-          <Typography sx={{ p: 1 }}>Confirm Type</Typography>
-        </Popover>
-        <IconButton
-          sx={{ width: 40, height: 40 }}
-          onClick={() => handleSubmit("type", selected)}
-          aria-owns={popopen ? "mouse-over-popover" : undefined}
-          aria-haspopup="true"
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-        >
-          <AddCircleOutline />
-        </IconButton>
+        <Tooltip title="Confirm" arrow>
+          <IconButton
+            sx={{ width: 40, height: 40 }}
+            onClick={() => handleSubmit("type", selected)}
+          >
+            <AddCircleOutline />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Grid>
   );

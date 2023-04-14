@@ -1,27 +1,11 @@
 import { useRef, useState } from "react";
-import {
-  TextField,
-  Typography,
-  Grid,
-  IconButton,
-  Popover,
-} from "@mui/material";
+import { TextField, Grid, IconButton, Tooltip } from "@mui/material";
 import ClearFieldButton from "../Buttons/ClearFieldButton";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 export default function NameField({ handleSubmit, handleReset }) {
   const [name, setName] = useState("");
   const inputRef = useRef(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const popopen = Boolean(anchorEl);
 
   function handleChange(e) {
     setName(e.target.value);
@@ -64,36 +48,11 @@ export default function NameField({ handleSubmit, handleReset }) {
       </Grid>
       <Grid item alignItems="center" sx={{ display: "flex", ml: 1 }}>
         <ClearFieldButton clickHandler={handleClearName} />
-        <Popover
-          id="mouse-over-popover"
-          sx={{
-            pointerEvents: "none",
-          }}
-          open={popopen}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
-          onClose={handlePopoverClose}
-          disableRestoreFocus
-        >
-          <Typography sx={{ p: 1 }}>Submit Name</Typography>
-        </Popover>
-        <IconButton
-          sx={{ width: 40, height: 40 }}
-          onClick={handleSubmitName}
-          aria-owns={popopen ? "mouse-over-popover" : undefined}
-          aria-haspopup="true"
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-        >
-          <ArrowCircleRightIcon />
-        </IconButton>
+        <Tooltip title="Confirm Name" arrow>
+          <IconButton sx={{ width: 40, height: 40 }} onClick={handleSubmitName}>
+            <ArrowCircleRightIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Grid>
   );
