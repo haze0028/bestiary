@@ -10,7 +10,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { CREATURE_TYPES } from "../../constants";
-import { AddCircleOutline, SettingsBackupRestore } from "@mui/icons-material";
+import { AddCircleOutline } from "@mui/icons-material";
 import ClearFieldButton from "../Buttons/ClearFieldButton";
 
 export default function TypeField({ handleSubmit, handleClearType }) {
