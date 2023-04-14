@@ -25,7 +25,7 @@ import SelectFieldMenu from "./SelectField";
 
 const INITIAL = {
   name: "",
-  // id: undefined,
+  id: 0,
   type: "",
   vulnerabilities: [],
   resistances: [],
@@ -38,7 +38,11 @@ const INITIAL = {
   abilities: [],
 };
 
-export default function NewMonsterDialog({ open, handleClose }) {
+export default function NewCreatureDialog({
+  open,
+  handleClose,
+  handleSubmitEntry,
+}) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [selectedField, setSelectedField] = useState("");
@@ -87,6 +91,8 @@ export default function NewMonsterDialog({ open, handleClose }) {
   }
 
   function handleSubmitField(field, val) {
+    const numb = Math.floor(Math.random() * 9999);
+    console.log(numb);
     // Update the string fields
     if (field === "name" || field === "type") {
       setData({ ...data, [field]: val });
@@ -125,9 +131,10 @@ export default function NewMonsterDialog({ open, handleClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // handleSubmitForm - POST results to server
     handleClose();
     handleReset();
+
+    handleSubmitEntry(data);
   }
 
   const checkDataSubmitted = useCallback(() => {
