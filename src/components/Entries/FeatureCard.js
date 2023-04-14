@@ -55,18 +55,37 @@ function FeatureCard({ title, contents, handleDeleteLine, handleDeleteAll }) {
                     key={item}
                     sx={{
                       px: 1,
-                      py: 0.5,
-                      height: 40,
+                      py: 0,
+                      minHeight: 36,
+                      boxSizing: "border-box",
                       display: "flex",
                       alignContent: "flex-start",
-                      "&:hover button": {
-                        display: "block",
+                      "&:hover": {
+                        boxSizing: "border-box",
+                        minHeight: 36,
+                        "& button": {
+                          display: "block",
+                        },
                       },
                     }}
                   >
-                    <Typography sx={{ flex: 1 }}>{item}</Typography>
+                    <Typography
+                      title={item}
+                      sx={{
+                        flex: 1,
+                        overflow: "hidden",
+                        maxWidth: "100%",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {item}
+                    </Typography>
                     <IconButton
-                      sx={{ height: 40, display: "none" }}
+                      sx={{
+                        display: "none",
+                        height: 34,
+                      }}
+                      size="small"
                       title="Delete"
                       onClick={() => {
                         handleDeleteLine(title, item);
@@ -82,9 +101,7 @@ function FeatureCard({ title, contents, handleDeleteLine, handleDeleteAll }) {
           )}
         </CardContent>
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button color="secondary" onClick={() => handleDeleteAll(title)}>
-            Clear all
-          </Button>
+          <Button onClick={() => handleDeleteAll(title)}>Clear all</Button>
         </CardActions>
       </Card>
     </Box>

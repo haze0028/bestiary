@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 
-export default function SelectField({
+export default function SelectFieldMenu({
   handleSelectField,
   menuItems,
   selected,
@@ -21,7 +21,7 @@ export default function SelectField({
   }
 
   return (
-    <div>
+    <>
       <Button
         id="selectFieldButton"
         aria-controls={open ? "selectFieldMenu" : undefined}
@@ -29,9 +29,10 @@ export default function SelectField({
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         variant="contained"
-        sx={{ width: "60%", mt: 2 }}
+        color="secondary"
+        sx={{ mr: 1 }}
       >
-        Add More Creature Features
+        Add Details
       </Button>
       <Menu
         id="selectFieldMenu"
@@ -42,22 +43,18 @@ export default function SelectField({
           "aria-labelledby": "selectFieldButton",
         }}
       >
-        {
-          // Object.keys(menuItems)
-          // .filter((k) => !menuItems[k])
-          menuItems.map((item) => {
-            return (
-              <MenuItem
-                onClick={() => handleSelectItem(item)}
-                key={item}
-                selected={item === selected}
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </MenuItem>
-            );
-          })
-        }
+        {menuItems.map((item) => {
+          return (
+            <MenuItem
+              onClick={() => handleSelectItem(item)}
+              key={item}
+              selected={item === selected}
+            >
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </MenuItem>
+          );
+        })}
       </Menu>
-    </div>
+    </>
   );
 }

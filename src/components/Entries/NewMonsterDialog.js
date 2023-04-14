@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useCallback, useEffect, useState } from "react";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
   Box,
@@ -12,17 +12,16 @@ import {
   Grid,
   Divider,
   Stack,
-  IconButton,
+  Alert,
 } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import SelectField from "./SelectField";
+import { darkTheme } from "../../theme";
 import TypeField from "../Fields/TypeField";
 import FeatureField from "../Fields/FeatureField";
 import FeatureCards from "./FeatureCard";
-import NameField from "../Fields/NameField";
 import ClearFieldButton from "../Buttons/ClearFieldButton";
-import CloseIcon from "@mui/icons-material/Close";
+import SelectFieldMenu from "./SelectField";
 
 const INITIAL = {
   name: "",
@@ -39,17 +38,12 @@ const INITIAL = {
   abilities: [],
 };
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
 export default function NewMonsterDialog({ open, handleClose }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [helperText, setHelperText] = useState("");
   const [selectedField, setSelectedField] = useState("");
+  const [columns, setColumns] = useState(2);
+  const [dataSubmitted, setDataSubmitted] = useState(false);
   const [data, setData] = useState({
     name: "",
     // id: undefined,
@@ -93,37 +87,28 @@ export default function NewMonsterDialog({ open, handleClose }) {
   }
 
   function handleSubmitField(field, val) {
-    if (field === "type" || field === "name") {
+    // Update the string fields
+    if (field === "name" || field === "type") {
       setData({ ...data, [field]: val });
       setSelectedField("");
     } else {
+      // Update the array fields
       const tempArr = data[field];
 
-      // check if value exists already
+      // check if value already exists in array
       if (tempArr.includes(val)) {
-        setHelperText("Already exists");
         return false;
       }
-      setHelperText("");
+
+      // Update temporary array
       tempArr.push(val);
+
+      // Replace data in Field with temporary array
       setData({
         ...data,
         [field]: tempArr,
       });
     }
-  }
-
-  function dataSubmitted() {
-    const arr = Object.entries(data);
-    const filterArr = arr.filter(
-      (item) => item[0] !== "name" && item[0] !== "type" && item[1].length !== 0
-    );
-    const filterType = arr.filter(
-      (item) => item[0] === "type" && item[1] !== ""
-    );
-
-    console.log(filterType);
-    // console.log(filterArr.length);
   }
 
   function handleReset() {
@@ -140,11 +125,29 @@ export default function NewMonsterDialog({ open, handleClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    // handleSubmitForm - POST results to server
+    handleClose();
+    handleReset();
   }
 
-  // useEffect(() => {
-  //   console.log(dataSubmitted());
-  // }, []);
+  const checkDataSubmitted = useCallback(() => {
+    const arr = Object.entries(data);
+    const filterArr = arr.filter(
+      (item) => item[0] !== "name" && item[1].length !== 0
+    );
+
+    const filterType = arr.filter(
+      (item) => Array.isArray(item[1]) && item[1].length > 0
+    );
+
+    setColumns(filterType.length >= 3 ? 3 : 2);
+
+    filterArr.length > 0 ? setDataSubmitted(true) : setDataSubmitted(false);
+  }, [data]);
+
+  useEffect(() => {
+    checkDataSubmitted();
+  }, [checkDataSubmitted, data]);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -156,7 +159,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
         component="form"
         fullScreen={fullScreen}
         fullWidth
-        maxWidth="sm"
+        maxWidth={columns === 3 ? "md" : "sm"}
         onSubmit={handleSubmit}
         sx={{
           "& > .MuiPaper-root": {
@@ -168,31 +171,29 @@ export default function NewMonsterDialog({ open, handleClose }) {
           {/* {data.name ? "New Creature - Details" : "New Creature - Name"} */}
           <Stack direction="row" sx={{ alignItems: "center" }}>
             <Typography variant="h3" component="h2" sx={{ flex: 1 }}>
-              {!data.name ? "Name" : `${data.name} - Details`}
+              {!data.name ? "Name it" : `${data.name}`}
             </Typography>
-            <Typography variant="h4" component="h3" sx={{ mr: 2 }}>
+            <Typography variant="h4" component="h3">
               New Creature
             </Typography>
-            <IconButton onClick={handleCancel}>
-              <CloseIcon />
-            </IconButton>
           </Stack>
         </DialogTitle>
         <DialogContent dividers>
           <Box sx={{ py: 0 }}>
-            {!data.name && <NameField handleSubmit={handleSubmitField} />}
-            {data.name && (
-              <Box sx={{ mb: 2, textAlign: "center" }}>
-                <SelectField
-                  handleSelectField={handleSelectField}
-                  menuItems={fields}
-                  selected={selectedField}
-                />
-              </Box>
+            {!data.name && (
+              <FeatureField handleSubmit={handleSubmitField} field="name" />
+            )}
+            {data.name && !selectedField && (
+              <Alert severity="success">
+                Want to add more infomation? Click "Add Details" below
+              </Alert>
             )}
 
             {selectedField === "type" && (
-              <TypeField handleSubmit={handleSubmitField} />
+              <TypeField
+                handleSubmit={handleSubmitField}
+                handleClearType={() => setSelectedField("")}
+              />
             )}
             {selectedField !== "type" && selectedField && (
               <FeatureField
@@ -203,12 +204,13 @@ export default function NewMonsterDialog({ open, handleClose }) {
           </Box>
           {data.name && (
             <>
-              {dataSubmitted() === true && <Divider sx={{ my: 3 }} />}
+              {dataSubmitted && <Divider sx={{ my: 3 }} />}
               {data.type && (
                 <Stack
                   direction="row"
                   sx={{
                     height: 40,
+                    width: "100%",
                     mb: 1,
                     display: "flex",
                     alignItems: "center",
@@ -220,15 +222,13 @@ export default function NewMonsterDialog({ open, handleClose }) {
                     },
                   }}
                 >
-                  <Typography sx={{ mr: 2, width: "100%" }}>
-                    Type: {data.type}
-                  </Typography>
+                  <Typography sx={{ mr: 2 }}>Type: {data.type}</Typography>
                   <ClearFieldButton
                     clickHandler={() => setData({ ...data, type: "" })}
                   />
                 </Stack>
               )}
-              <Box sx={{ columns: 3 }}>
+              <Box sx={{ columns: columns }}>
                 <FeatureCards
                   handleDeleteAll={handleDeleteAll}
                   handleDeleteLine={handleDeleteLine}
@@ -245,6 +245,7 @@ export default function NewMonsterDialog({ open, handleClose }) {
                 onClick={handleCancel}
                 type="button"
                 variant="outlined"
+                color="warning"
                 sx={{ mr: 1 }}
               >
                 Cancel
@@ -264,6 +265,13 @@ export default function NewMonsterDialog({ open, handleClose }) {
               justifyContent="flex-end"
               sx={{ display: "flex" }}
             >
+              {data.name && (
+                <SelectFieldMenu
+                  handleSelectField={handleSelectField}
+                  menuItems={fields}
+                  selected={selectedField}
+                />
+              )}
               <Button
                 type="submit"
                 variant="contained"

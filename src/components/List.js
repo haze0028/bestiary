@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/system";
 import clsx from "clsx";
 import {
@@ -38,10 +38,6 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
     const val = e.target.value;
     setSort(val);
   }
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Root sx={{ position: "relative" }}>

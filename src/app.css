@@ -47,15 +47,6 @@ header h1 {
   border: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: norse !important;
-}
-
 /* button.MuiButton-containedSuccess {
   background: rgb(136, 81, 35);
 }
