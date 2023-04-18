@@ -1,5 +1,6 @@
 export const DRAWER_WIDTH = 360;
 export const CREATURE_TYPES = [
+  "Unknown",
   "Aberration",
   "Beast",
   "Celestial",

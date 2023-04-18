@@ -1,54 +1,16 @@
 import { useState } from "react";
-import { styled } from "@mui/system";
-import clsx from "clsx";
-import "./app.css";
+import { Box, Stack } from "@mui/material";
+import NewMonsterDialog from "./components/Entries/NewMonsterDialog";
+import LeftPanel from "./components/Panels/LeftPanel";
+import RightPanel from "./components/Panels/RightPanel";
 
 import data from "./fakedata";
-import { DRAWER_WIDTH } from "./constants";
-import { Box, Typography } from "@mui/material";
-import MonsterCard from "./components/Entries/MonsterCard";
-import NewButton from "./components/Buttons/NewEntryButton";
-import { ToggleDrawerButton } from "./components/Buttons/ToggleDrawerButton";
-import ListDrawer from "./components/List";
-import blood from "./images/blood2.png";
-import NewMonsterDialog from "./components/Entries/NewMonsterDialog";
-
-const Root = styled("div")(({ theme }) => ({
-  "& .App": {
-    display: "flex",
-    "& .leftPanel": {
-      transition: "300ms",
-      height: "100vh",
-      "&.drawerOpen": {
-        width: DRAWER_WIDTH,
-      },
-      "&.drawerClosed": {
-        width: 0,
-      },
-    },
-    "& .rightPanel": {
-      flex: 1,
-      position: "relative",
-      height: "100vh",
-      "& .content": {
-        padding: theme.spacing(5),
-        maxWidth: theme.spacing(150),
-        margin: "auto",
-      },
-    },
-    "& .fadeIn": {
-      opacity: 1,
-    },
-    "& .fadeOut": {
-      opacity: 0,
-    },
-  },
-}));
+import "./app.css";
 
 function App() {
   const [open, setOpen] = useState({
     drawer: true,
-    modal: false,
+    dialog: false,
   });
   const [monster, setMonster] = useState();
   const [fade, setFade] = useState();
@@ -77,65 +39,33 @@ function App() {
   };
 
   const handleNewClick = () => {
-    setOpen({ ...open, modal: true });
+    setOpen({ ...open, dialog: true });
   };
 
   const handleNewClose = () => {
-    setOpen({ ...open, modal: false });
+    setOpen({ ...open, dialog: false });
   };
 
   return (
-    <Root>
-      <div className="App">
-        <Box
-          className={clsx("leftPanel", {
-            drawerOpen: open.drawer,
-            drawerClosed: !open.drawer,
-          })}
-        >
-          <ListDrawer
-            open={open.drawer}
-            handleClose={() => handleClose("drawer")}
-            handleClick={handleListItemClick}
-            data={data}
-          />
-        </Box>
-        <Box className="rightPanel">
-          <div className="content">
-            <header>
-              <img src={blood} alt="header background blood" id="headerImage" />
-              <Typography
-                variant="h1"
-                className="header"
-                sx={{ textAlign: "right", fontWeight: "bold" }}
-              >
-                Bestiary
-              </Typography>
-            </header>
-            <Box
-              className={fade && "fadeIn"}
-              sx={{ transition: "1s", opacity: 0 }}
-            >
-              {monster && (
-                <MonsterCard
-                  monster={monster}
-                  handleClickClose={handleCloseCard}
-                />
-              )}
-            </Box>
-            <ToggleDrawerButton
-              drawer={open.drawer}
-              handleClick={handleToggleDrawer}
-              shift={monster}
-            />
-            <NewButton handleClick={handleNewClick} shift={monster} />
-          </div>
-        </Box>
-        {open.modal && (
-          <NewMonsterDialog open={open.modal} handleClose={handleNewClose} />
-        )}
-      </div>
-    </Root>
+    <Stack direction="row">
+      <LeftPanel
+        drawerOpen={open.drawer}
+        handleClose={handleClose}
+        data={data}
+        handleListItemClick={handleListItemClick}
+      />
+      <RightPanel
+        monster={monster}
+        drawerOpen={open.drawer}
+        fade={fade}
+        handleCloseCard={handleCloseCard}
+        handleNewClick={handleNewClick}
+        handleToggleDrawer={handleToggleDrawer}
+      />
+      {open.dialog && (
+        <NewMonsterDialog open={open.dialog} handleClose={handleNewClose} />
+      )}
+    </Stack>
   );
 }
 
