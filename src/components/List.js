@@ -1,38 +1,228 @@
 import { useState } from "react";
+import { styled } from "@mui/system";
+import clsx from "clsx";
 import {
   Drawer,
-  Button,
-  ClickAwayListener,
   Box,
+  Link,
   Typography,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  ListItem,
+  List,
+  ListItemIcon,
+  Stack,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-import { DRAWER_WIDTH } from "../App";
+import { DRAWER_WIDTH } from "../constants";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function List({ open, handleOpen, handleClose, data }) {
+const Root = styled(Box)(({ theme }) => ({
+  "& .orderBtn": {
+    transition: "300ms !important",
+  },
+
+  "& .orderBtnDes": {
+    transform: "rotate(180deg)",
+  },
+
+  /*
+   *  STYLED SCROLLBAR
+   */
+  "& .scrollbar": { float: "left", overflowY: "scroll", marginBottom: "25px" },
+  "& #style-7::-webkit-scrollbar-track": {
+    WebkitBoxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
+    backgroundColor: "transparent",
+    borderRadius: "10px",
+  },
+  "& #style-7::-webkit-scrollbar": {
+    width: "10px",
+    backgroundColor: "transparent",
+  },
+  "& #style-7::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    backgroundImage:
+      "-webkit-gradient(\n    linear,\n    left bottom,\n    left top,\n     color-stop(0.2, rgb(175, 115, 46)),\n    color-stop(0.8, rgb(148, 76, 28))\n  )",
+  },
+}));
+
+export default function ListDrawer({ open, data, handleClick, handleClose }) {
+  const [sort, setSort] = useState("name");
+  const [order, setOrder] = useState(true);
+  const names = data.slice().sort((a, b) => (a.name > b.name ? 1 : -1));
+  const types = [...new Set(data.map((item) => item.type))];
+
+  function orderClickHandler() {
+    setOrder(!order);
+  }
+
+  function handleChange(e) {
+    const val = e.target.value;
+    setSort(val);
+  }
+
   return (
-    // <ClickAwayListener onClickAway={handleClose}>
-    <Box sx={{ position: "relative" }}>
+    <Root sx={{ position: "relative" }}>
       <Drawer
         anchor="left"
         open={open}
         variant="persistent"
-        sx={{
+        sx={(theme) => ({
           "& .MuiPaper-root": {
             width: DRAWER_WIDTH,
+            backgroundColor: "transparent",
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            boxSizing: "border-box",
           },
-        }}
-      >
-        {data.map((item) => {
-          return (
-            <ul>
-              <li>
-                <Typography>{item.name}</Typography>
-              </li>
-            </ul>
-          );
         })}
+      >
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mt: 1, mr: 1 }}
+        >
+          <Typography variant="h2" sx={{ fontWeight: "bold" }}>
+            Creatures
+          </Typography>
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mt: 1, mr: 1 }}
+        >
+          <FormControl
+            variant="standard"
+            sx={{
+              width: "70%",
+              mb: 2,
+            }}
+          >
+            <InputLabel id="sort-by-label">Sort by</InputLabel>
+            <Select
+              labelId="sort-by-label"
+              id="sort-by-select"
+              value={sort}
+              label="Sort by"
+              onChange={handleChange}
+            >
+              <MenuItem value="name">Name</MenuItem>
+              <MenuItem value="type">Type</MenuItem>
+            </Select>
+          </FormControl>
+          <Tooltip title={order ? "A-Z" : "Z-A"} arrow>
+            <IconButton
+              className={clsx("orderBtn", {
+                orderBtnDes: !order,
+              })}
+              sx={{ width: 40, height: 40 }}
+              onClick={orderClickHandler}
+            >
+              <FilterListIcon />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+        <Box sx={{ overflowY: "auto" }} className="scrollbar" id="style-7">
+          {sort === "name" ? (
+            <>
+              <List>
+                {names
+                  .sort((a, b) =>
+                    order
+                      ? a.name > b.name
+                        ? 1
+                        : -1
+                      : a.name > b.name
+                      ? -1
+                      : 1
+                  )
+                  .map((item) => {
+                    return (
+                      <ListItem key={item.id}>
+                        <ListItemIcon sx={{ minWidth: "unset" }}>
+                          <WhatshotIcon />
+                        </ListItemIcon>
+                        <Link
+                          href="/"
+                          onClick={(e) => handleClick(e, item)}
+                          color="inherit"
+                          variant="body1"
+                          underline="hover"
+                          sx={(theme) => ({ fontSize: "1.5rem" })}
+                        >
+                          {item.name}
+                        </Link>
+                      </ListItem>
+                    );
+                  })}
+              </List>
+            </>
+          ) : (
+            <>
+              <List>
+                {types
+                  .sort((a, b) => (order ? (a > b ? 1 : -1) : a > b ? -1 : 1))
+                  .map((item) => {
+                    return (
+                      <ListItem
+                        key={item}
+                        sx={{
+                          flexDirection: "column",
+                          alignItems: "start",
+                          pl: 0,
+                        }}
+                      >
+                        <Typography variant="h4">{item}</Typography>
+                        <List>
+                          {names
+                            .filter((name) => name.type === item)
+                            .sort((a, b) =>
+                              order
+                                ? a.name > b.name
+                                  ? 1
+                                  : -1
+                                : a.name > b.name
+                                ? -1
+                                : 1
+                            )
+                            .map((creature) => {
+                              return (
+                                <ListItem key={creature.id}>
+                                  <ListItemIcon sx={{ minWidth: "unset" }}>
+                                    <WhatshotIcon />
+                                  </ListItemIcon>
+                                  <Link
+                                    href="/"
+                                    onClick={(e) => handleClick(e, creature)}
+                                    color="inherit"
+                                    variant="body1"
+                                    underline="hover"
+                                    sx={(theme) => ({ fontSize: "1.5rem" })}
+                                  >
+                                    {creature.name}
+                                  </Link>
+                                </ListItem>
+                              );
+                            })}
+                        </List>
+                      </ListItem>
+                    );
+                  })}
+              </List>
+            </>
+          )}
+        </Box>
       </Drawer>
-    </Box>
-    // </ClickAwayListener>
+    </Root>
   );
 }

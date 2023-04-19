@@ -1,95 +1,71 @@
-import Entry from "./components/Entries/Entry";
-import List from "./components/List";
-import NewButton from "./components/Entries/NewButton";
-import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
-import { styled } from "@mui/system";
-import clsx from "clsx";
+import { useState } from "react";
+import NewCreatureDialog from "./components/Entries/NewCreatureDialog";
+import LeftPanel from "./components/Panels/LeftPanel";
+import RightPanel from "./components/Panels/RightPanel";
+
 import data from "./fakedata";
-
-export const DRAWER_WIDTH = 300;
-
-const Root = styled("div")(({ theme }) => ({
-  "& .App": {
-    display: "flex",
-    "& .listBox": {
-      transition: "300ms",
-    },
-    "& .entryBox": {
-      flex: 1,
-      margin: theme.spacing(5),
-    },
-  },
-  "& .drawerOpen": {
-    width: DRAWER_WIDTH,
-  },
-  "& .drawerClosed": {
-    width: 0,
-  },
-}));
+import "./app.css";
+import { Stack } from "@mui/material";
 
 function App() {
   const [open, setOpen] = useState({
     drawer: true,
-    card: true,
+    dialog: false,
   });
-
-  const handleOpen = (item) => {
-    console.log(open);
-    setOpen({ ...open, drawer: true });
-  };
+  const [creature, setCreature] = useState();
+  const [fade, setFade] = useState();
 
   const handleClose = (item) => {
-    console.log(open);
     setOpen({ ...open, drawer: false });
   };
 
-  const toggleOpen = (item) => {
-    console.log(item);
-    setOpen({ ...open, [item]: true });
-    console.log(open);
+  const handleToggleDrawer = () => {
+    setOpen({ ...open, drawer: !open.drawer });
   };
 
-  useEffect(() => {
-    console.clear();
-  }, []);
+  const handleListItemClick = (e, item) => {
+    e.preventDefault();
+    setCreature(item);
+    setTimeout(function () {
+      setFade(true);
+    }, 1000);
+  };
+
+  const handleCloseCard = () => {
+    setFade(false);
+    setTimeout(function () {
+      setCreature(null);
+    }, 1000);
+  };
+
+  const handleNewClick = () => {
+    setOpen({ ...open, dialog: true });
+  };
+
+  const handleNewClose = () => {
+    setOpen({ ...open, dialog: false });
+  };
 
   return (
-    <Root>
-      <div className="App">
-        <Box
-          className={clsx("listBox", {
-            drawerOpen: open.drawer,
-            drawerClosed: !open.drawer,
-          })}
-        >
-          <List
-            open={open.drawer}
-            handleOpen={() => handleOpen("drawer")}
-            handleClose={() => handleClose("drawer")}
-            data={data}
-          />
-        </Box>
-        <Box className="entryBox">
-          <Button
-            onClick={() => handleOpen("drawer")}
-            variant="contained"
-            color="success"
-          >
-            View Bestiary List
-          </Button>
-          <Button
-            onClick={() => handleClose("drawer")}
-            variant="contained"
-            color="success"
-          >
-            Close Bestiary List
-          </Button>
-          <Entry monster={data[0]} />
-        </Box>
-        <NewButton />
-      </div>
-    </Root>
+    <Stack direction="row">
+      <LeftPanel
+        drawerOpen={open.drawer}
+        handleClose={handleClose}
+        data={data}
+        handleListItemClick={handleListItemClick}
+      />
+      <RightPanel
+        creature={creature}
+        drawerOpen={open.drawer}
+        fade={fade}
+        handleCloseCard={handleCloseCard}
+        handleNewClick={handleNewClick}
+        handleToggleDrawer={handleToggleDrawer}
+      />
+      {open.dialog && (
+        <NewCreatureDialog open={open.dialog} handleClose={handleNewClose} />
+      )}
+    </Stack>
   );
 }
 
