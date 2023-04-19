@@ -8,6 +8,7 @@ import "./app.css";
 import { Stack } from "@mui/material";
 
 function App() {
+  const [allData, setAllData] = useState(data);
   const [open, setOpen] = useState({
     drawer: true,
     dialog: false,
@@ -38,6 +39,11 @@ function App() {
     }, 1000);
   };
 
+  function handleSubmitEntry(newCreature) {
+    setAllData((allData) => [...allData, newCreature]);
+    setCreature(newCreature);
+  }
+
   const handleNewClick = () => {
     setOpen({ ...open, dialog: true });
   };
@@ -51,7 +57,7 @@ function App() {
       <LeftPanel
         drawerOpen={open.drawer}
         handleClose={handleClose}
-        data={data}
+        data={allData}
         handleListItemClick={handleListItemClick}
       />
       <RightPanel
@@ -63,7 +69,11 @@ function App() {
         handleToggleDrawer={handleToggleDrawer}
       />
       {open.dialog && (
-        <NewCreatureDialog open={open.dialog} handleClose={handleNewClose} />
+        <NewCreatureDialog
+          open={open.dialog}
+          handleClose={handleNewClose}
+          handleSubmitEntry={handleSubmitEntry}
+        />
       )}
     </Stack>
   );
