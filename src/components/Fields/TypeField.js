@@ -15,7 +15,7 @@ import ClearFieldButton from "../Buttons/ClearFieldButton";
 
 export default function TypeField({ handleSubmit, handleClearType }) {
   const types = CREATURE_TYPES;
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("Unknown");
   const [error, setError] = useState(false);
 
   function handleChange(e) {
