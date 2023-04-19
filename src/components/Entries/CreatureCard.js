@@ -12,10 +12,10 @@ import { styled } from "@mui/system";
 
 const Root = styled(Card)(({ theme }) => ({
   minWidth: 275,
-  padding: theme.spacing(3),
   position: "relative",
   transition: "500ms",
   opacity: 0,
+  flex: 1,
 
   "&.fadeIn": {
     opacity: 1,
@@ -83,7 +83,7 @@ export default function CreatureCard({ creature, handleClickClose }) {
         id="borderCorner4"
         className="borderCorner"
       />
-      <CardContent>
+      <CardContent sx={{ p: 5, pb: 2 }}>
         <Typography variant="h3" component="h2" gutterBottom>
           {creature.name}
         </Typography>
@@ -152,7 +152,7 @@ export default function CreatureCard({ creature, handleClickClose }) {
           )}
         </>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ px: 5 }}>
         <Button size="small">Edit</Button>
         <Button size="small">Add Section</Button>
         <Button size="small" onClick={handleClickClose}>

@@ -10,8 +10,8 @@ const Root = styled(Button)(({ theme }) => ({
     left: `calc(50% - 200px)`,
     transition: "500ms ease-out",
     "&.shifted": {
-      bottom: theme.spacing(3),
-      left: theme.spacing(3),
+      bottom: theme.spacing(5),
+      left: theme.spacing(5),
     },
   },
 }));

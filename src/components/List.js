@@ -22,7 +22,34 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Root = styled(Box)(({ theme }) => ({}));
+const Root = styled(Box)(({ theme }) => ({
+  "& .orderBtn": {
+    transition: "300ms !important",
+  },
+
+  "& .orderBtnDes": {
+    transform: "rotate(180deg)",
+  },
+
+  /*
+   *  STYLED SCROLLBAR
+   */
+  "& .scrollbar": { float: "left", overflowY: "scroll", marginBottom: "25px" },
+  "& #style-7::-webkit-scrollbar-track": {
+    WebkitBoxShadow: "inset 0 0 6px rgba(0, 0, 0, 0.3)",
+    backgroundColor: "transparent",
+    borderRadius: "10px",
+  },
+  "& #style-7::-webkit-scrollbar": {
+    width: "10px",
+    backgroundColor: "transparent",
+  },
+  "& #style-7::-webkit-scrollbar-thumb": {
+    borderRadius: "10px",
+    backgroundImage:
+      "-webkit-gradient(\n    linear,\n    left bottom,\n    left top,\n     color-stop(0.2, rgb(175, 115, 46)),\n    color-stop(0.8, rgb(148, 76, 28))\n  )",
+  },
+}));
 
 export default function ListDrawer({ open, data, handleClick, handleClose }) {
   const [sort, setSort] = useState("name");
@@ -95,7 +122,7 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
           </FormControl>
           <Tooltip title={order ? "A-Z" : "Z-A"} arrow>
             <IconButton
-              className={clsx("order-btn", {
+              className={clsx("orderBtn", {
                 orderBtnDes: !order,
               })}
               sx={{ width: 40, height: 40 }}
