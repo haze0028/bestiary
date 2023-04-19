@@ -12,7 +12,6 @@ import { styled } from "@mui/system";
 
 const Root = styled(Card)(({ theme }) => ({
   minWidth: 275,
-  borderRadius: theme.spacing(1),
   position: "relative",
   transition: "500ms",
   opacity: 0,
@@ -53,11 +52,11 @@ const Root = styled(Card)(({ theme }) => ({
   },
 }));
 
-export default function MonsterCard({ monster, handleClickClose }) {
+export default function CreatureCard({ creature, handleClickClose }) {
   return (
     <Root
-      className={clsx("monsterCard", {
-        fadeIn: monster.name !== "",
+      className={clsx({
+        fadeIn: creature.name !== "",
       })}
     >
       <img
@@ -86,67 +85,69 @@ export default function MonsterCard({ monster, handleClickClose }) {
       />
       <CardContent sx={{ p: 5, pb: 2 }}>
         <Typography variant="h3" component="h2" gutterBottom>
-          {monster.name}
+          {creature.name}
         </Typography>
         <>
-          {monster.type !== "" && (
+          {creature.type !== "" && (
             <>
               <Typography variant="h5">Type</Typography>
-              <Typography variant="body1">{monster.type}</Typography>
+              <Typography variant="body1">{creature.type}</Typography>
             </>
           )}
-          {monster.vulnerabilities.length > 0 && (
+          {creature.vulnerabilities.length > 0 && (
             <>
               <Typography variant="h5">Vulnerabilities</Typography>
-              <Typography variant="body1">{monster.vulnerabilities}</Typography>
+              <Typography variant="body1">
+                {creature.vulnerabilities}
+              </Typography>
             </>
           )}
-          {monster.resistances.length > 0 && (
+          {creature.resistances.length > 0 && (
             <>
               <Typography variant="h5">Resistances</Typography>
-              <Typography variant="body1">{monster.resistances}</Typography>
+              <Typography variant="body1">{creature.resistances}</Typography>
             </>
           )}
-          {monster.immunities.length > 0 && (
+          {creature.immunities.length > 0 && (
             <>
               <Typography variant="h5">Immunities</Typography>
-              <Typography variant="body1">{monster.immunities}</Typography>
+              <Typography variant="body1">{creature.immunities}</Typography>
             </>
           )}
-          {monster.traits.length > 0 && (
+          {creature.traits.length > 0 && (
             <>
               <Typography variant="h5">Traits</Typography>
-              <Typography variant="body1">{monster.traits}</Typography>
+              <Typography variant="body1">{creature.traits}</Typography>
             </>
           )}
-          {monster.proficiencies.length > 0 && (
+          {creature.proficiencies.length > 0 && (
             <>
               <Typography variant="h5">Proficiencies</Typography>
-              <Typography variant="body1">{monster.proficiences}</Typography>
+              <Typography variant="body1">{creature.proficiences}</Typography>
             </>
           )}
-          {monster.bait.length > 0 && (
+          {creature.bait.length > 0 && (
             <>
               <Typography variant="h5">Bait</Typography>
-              <Typography variant="body1">{monster.bait}</Typography>
+              <Typography variant="body1">{creature.bait}</Typography>
             </>
           )}
-          {monster.quirks.length > 0 && (
+          {creature.quirks.length > 0 && (
             <>
               <Typography variant="h5">Quirks</Typography>
-              <Typography variant="body1">{monster.quirks}</Typography>
+              <Typography variant="body1">{creature.quirks}</Typography>
             </>
           )}
-          {monster.behaviours.length > 0 && (
+          {creature.behaviours.length > 0 && (
             <>
               <Typography variant="h5">Behaviours</Typography>
-              <Typography variant="body1">{monster.behaviours}</Typography>
+              <Typography variant="body1">{creature.behaviours}</Typography>
             </>
           )}
-          {monster.abilities.length > 0 && (
+          {creature.abilities.length > 0 && (
             <>
               <Typography variant="h5">Abilities</Typography>
-              <Typography variant="body1">{monster.abilities}</Typography>
+              <Typography variant="body1">{creature.abilities}</Typography>
             </>
           )}
         </>

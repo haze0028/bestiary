@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { Box, Stack } from "@mui/material";
-import NewMonsterDialog from "./components/Entries/NewMonsterDialog";
+import NewCreatureDialog from "./components/Entries/NewCreatureDialog";
 import LeftPanel from "./components/Panels/LeftPanel";
 import RightPanel from "./components/Panels/RightPanel";
 
 import data from "./fakedata";
 import "./app.css";
+import { Stack } from "@mui/material";
 
 function App() {
   const [open, setOpen] = useState({
     drawer: true,
     dialog: false,
   });
-  const [monster, setMonster] = useState();
+  const [creature, setCreature] = useState();
   const [fade, setFade] = useState();
 
   const handleClose = (item) => {
@@ -25,7 +25,7 @@ function App() {
 
   const handleListItemClick = (e, item) => {
     e.preventDefault();
-    setMonster(item);
+    setCreature(item);
     setTimeout(function () {
       setFade(true);
     }, 1000);
@@ -34,7 +34,7 @@ function App() {
   const handleCloseCard = () => {
     setFade(false);
     setTimeout(function () {
-      setMonster(null);
+      setCreature(null);
     }, 1000);
   };
 
@@ -55,7 +55,7 @@ function App() {
         handleListItemClick={handleListItemClick}
       />
       <RightPanel
-        monster={monster}
+        creature={creature}
         drawerOpen={open.drawer}
         fade={fade}
         handleCloseCard={handleCloseCard}
@@ -63,7 +63,7 @@ function App() {
         handleToggleDrawer={handleToggleDrawer}
       />
       {open.dialog && (
-        <NewMonsterDialog open={open.dialog} handleClose={handleNewClose} />
+        <NewCreatureDialog open={open.dialog} handleClose={handleNewClose} />
       )}
     </Stack>
   );

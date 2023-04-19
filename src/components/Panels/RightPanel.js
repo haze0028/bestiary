@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 import { Box, Stack } from "@mui/material";
-import MonsterCard from "../Entries/MonsterCard";
+import CreatureCard from "../Entries/CreatureCard";
 import NewButton from "../Buttons/NewEntryButton";
 import { ToggleDrawerButton } from "../Buttons/ToggleDrawerButton";
 import AppHeader from "../AppHeader";
@@ -10,6 +10,7 @@ const Root = styled(Box)(({ theme }) => ({
   position: "relative",
   maxWidth: theme.spacing(150),
   height: "100vh",
+  margin: "auto",
   "& .content": {
     padding: theme.spacing(5),
     height: "100%",
@@ -24,7 +25,7 @@ const Root = styled(Box)(({ theme }) => ({
 }));
 
 export default function RightPanel({
-  monster,
+  creature,
   drawerOpen,
   fade,
   handleCloseCard,
@@ -37,18 +38,27 @@ export default function RightPanel({
         <AppHeader />
         <Box
           className={fade && "fadeIn"}
-          sx={{ transition: "1s", opacity: 0, flex: 1, overflowY: "auto" }}
+          sx={{
+            transition: "1s",
+            opacity: 0,
+            flex: 1,
+            overflowY: "auto",
+            borderRadius: (theme) => theme.spacing(1),
+          }}
         >
-          {monster && (
-            <MonsterCard monster={monster} handleClickClose={handleCloseCard} />
+          {creature && (
+            <CreatureCard
+              creature={creature}
+              handleClickClose={handleCloseCard}
+            />
           )}
         </Box>
         <ToggleDrawerButton
           drawer={drawerOpen}
           handleClick={handleToggleDrawer}
-          shift={monster}
+          shift={creature}
         />
-        <NewButton handleClick={handleNewClick} shift={monster} />
+        <NewButton handleClick={handleNewClick} shift={creature} />
         <Box
           sx={{
             display: "block",
