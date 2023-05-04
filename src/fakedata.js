@@ -6,7 +6,7 @@ const data = [
     vulnerabilities: ["fire"],
     resistances: ["lightning"],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -20,7 +20,7 @@ const data = [
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -34,7 +34,7 @@ const data = [
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -50,7 +50,7 @@ const data = [
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -64,7 +64,7 @@ const data = [
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -80,7 +80,7 @@ const data = [
     ],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -94,7 +94,7 @@ const data = [
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -113,7 +113,7 @@ export default data;
 //   vulnerabilities: [],
 //   resistances: [],
 //   immunities: [],
-//   traits: [],
+//   senses: [],
 //   proficiencies: [],
 //   bait: [],
 //   quirks: [],
@@ -131,7 +131,7 @@ export default data;
 // Type: Nature DC14
 
 // Vulnerability/resistance/Immunities: History/Nature DC14
-// Specific traits (darkvision, fly speed, languages, etc.) : Arcana/History DC14
+// Specific senses (darkvision, fly speed, languages, etc.) : Arcana/History DC14
 
 // Proficiencies: Insight/History DC14
 

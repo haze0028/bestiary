@@ -1,11 +1,13 @@
 import { useState } from "react";
+import "./app.css";
+
+import { Stack } from "@mui/material";
 import NewCreatureDialog from "./components/Entries/NewCreatureDialog";
 import LeftPanel from "./components/Panels/LeftPanel";
 import RightPanel from "./components/Panels/RightPanel";
 
 import data from "./fakedata";
-import "./app.css";
-import { Stack } from "@mui/material";
+import "../node_modules/rpg-awesome/css/rpg-awesome.min.css";
 
 function App() {
   const [allData, setAllData] = useState(data);
@@ -53,29 +55,31 @@ function App() {
   };
 
   return (
-    <Stack direction="row">
-      <LeftPanel
-        drawerOpen={open.drawer}
-        handleClose={handleClose}
-        data={allData}
-        handleListItemClick={handleListItemClick}
-      />
-      <RightPanel
-        creature={creature}
-        drawerOpen={open.drawer}
-        fade={fade}
-        handleCloseCard={handleCloseCard}
-        handleNewClick={handleNewClick}
-        handleToggleDrawer={handleToggleDrawer}
-      />
-      {open.dialog && (
-        <NewCreatureDialog
-          open={open.dialog}
-          handleClose={handleNewClose}
-          handleSubmitEntry={handleSubmitEntry}
+    <>
+      <Stack direction="row">
+        <LeftPanel
+          drawerOpen={open.drawer}
+          handleClose={handleClose}
+          data={allData}
+          handleListItemClick={handleListItemClick}
         />
-      )}
-    </Stack>
+        <RightPanel
+          creature={creature}
+          drawerOpen={open.drawer}
+          fade={fade}
+          handleCloseCard={handleCloseCard}
+          handleNewClick={handleNewClick}
+          handleToggleDrawer={handleToggleDrawer}
+        />
+        {open.dialog && (
+          <NewCreatureDialog
+            open={open.dialog}
+            handleClose={handleNewClose}
+            handleSubmitEntry={handleSubmitEntry}
+          />
+        )}
+      </Stack>
+    </>
   );
 }
 

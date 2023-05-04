@@ -149,8 +149,8 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
                   .map((item) => {
                     return (
                       <ListItem key={item.id}>
-                        <ListItemIcon sx={{ minWidth: "unset" }}>
-                          <WhatshotIcon />
+                        <ListItemIcon sx={{ minWidth: "unset", mr: 1 }}>
+                          <i className="ra ra-skull"></i>
                         </ListItemIcon>
                         <Link
                           href="/"
@@ -198,8 +198,10 @@ export default function ListDrawer({ open, data, handleClick, handleClose }) {
                             .map((creature) => {
                               return (
                                 <ListItem key={creature.id}>
-                                  <ListItemIcon sx={{ minWidth: "unset" }}>
-                                    <WhatshotIcon />
+                                  <ListItemIcon
+                                    sx={{ minWidth: "unset", mr: 1 }}
+                                  >
+                                    <i className="ra ra-skull"></i>
                                   </ListItemIcon>
                                   <Link
                                     href="/"

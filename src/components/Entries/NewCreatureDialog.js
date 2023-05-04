@@ -30,7 +30,7 @@ const INITIAL = {
   vulnerabilities: [],
   resistances: [],
   immunities: [],
-  traits: [],
+  senses: [],
   proficiencies: [],
   bait: [],
   quirks: [],
@@ -55,7 +55,7 @@ export default function NewCreatureDialog({
     vulnerabilities: [],
     resistances: [],
     immunities: [],
-    traits: [],
+    senses: [],
     proficiencies: [],
     bait: [],
     quirks: [],
@@ -65,15 +65,18 @@ export default function NewCreatureDialog({
 
   const fields = [
     "type",
-    "vulnerabilities",
-    "resistances",
-    "immunities",
-    "traits",
-    "proficiencies",
-    "bait",
-    "quirks",
-    "behaviours",
-    "abilities",
+    "vulnerabilities", // player-pain
+    "resistances", // shield
+    "immunities", // heavy-shield
+    "senses", // eyeball
+    // Senses: darkvision, blindsight
+    "proficiencies", // muscle-up
+    "bait", // meat
+    "quirks", // biohazard
+    // Homebrew: damaged only after being hit by lightning
+    "behaviours", // leo
+    // Tries to swarm oponents and assist each other
+    "abilities", //player-dodge
   ];
 
   function handleSelectField(field) {

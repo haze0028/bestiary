@@ -114,10 +114,10 @@ export default function CreatureCard({ creature, handleClickClose }) {
               <Typography variant="body1">{creature.immunities}</Typography>
             </>
           )}
-          {creature.traits.length > 0 && (
+          {creature.senses.length > 0 && (
             <>
-              <Typography variant="h5">Traits</Typography>
-              <Typography variant="body1">{creature.traits}</Typography>
+              <Typography variant="h5">senses</Typography>
+              <Typography variant="body1">{creature.senses}</Typography>
             </>
           )}
           {creature.proficiencies.length > 0 && (
